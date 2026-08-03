@@ -35,8 +35,7 @@ distritos del país, de 2018 a 2026. Descargado el 02/08/2026.
 ## Proceso de limpieza
 
 El trabajo principal de este proyecto no fue la visualización, sino dejar
-dos fuentes oficiales en condiciones de ser cruzadas. Estos son los
-cuatro problemas encontrados.
+dos fuentes oficiales en condiciones de ser cruzadas. Encontré 4 problemas:
 
 ### Códigos UBIGEO sin ceros iniciales
 
