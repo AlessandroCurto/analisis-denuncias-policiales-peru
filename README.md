@@ -67,13 +67,16 @@ separadas, que convertí en filas mediante anulación de dinamización.
 
 ![Archivo del INEI sin procesar](imagenes/data_poblacion_proyectada_original.jpg)
 
-### Notas al pie incrustadas en los datos
+### Registros sin dato en distritos de creación reciente
 
-59 registros traían la llamada a nota al pie dentro del nombre del
-distrito (`AHUAYRO 15/`, `PUTIS 7/`) y sin valor numérico de población
-para 2018, 2019 y 2020, por tratarse de distritos de creación reciente.
-Los detecté porque la conversión de tipo de dato generó errores en esas
-filas. Separé el indicador del nombre y eliminé los registros sin dato.
+59 registros no tenían valor numérico de población para 2018, 2019 y 2020,
+por tratarse de distritos creados con posterioridad a esos años. Además,
+sus nombres traían pegada una marca de referencia del cuadro original
+(`AHUAYRO 15/`, `PUTIS 7/`), utilizada por el INEI para remitir a una
+aclaración metodológica.
+Los detecté porque la conversión de la columna a número entero generó
+errores en esas filas. Separé la marca del nombre y eliminé los registros
+sin dato.
 El efecto es que unos 18 distritos no tienen tasa calculable en esos tres
 años. Representan menos del 0.4% de los registros de población.
 
