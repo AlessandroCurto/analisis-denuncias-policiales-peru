@@ -19,6 +19,9 @@ vez ajustada por población?
 
 ![Detalle por departamento, provincia y distrito](imagenes/matriz.jpg)
 
+El archivo `.pbix` con el modelo y los tres informes está incluido en este
+repositorio.
+
 ## Fuentes de datos
 
 **Policía Nacional del Perú — Denuncias Policiales (SIDPOL)**  
