@@ -106,7 +106,7 @@ métrica; las descripciones se separaron en dimensiones.
 
 | Tabla | Rol |
 |---|---|
-| `Denuncias` | Hechos. Una fila por distrito, mes y modalidad |
+| `Denuncias` | Una fila por distrito, mes y modalidad |
 | `Dim Geografia` | Distrito, provincia, departamento y su equivalencia INEI |
 | `Dim Modalidad` | Las siete categorías de denuncia |
 | `Calendario` | Tabla de fechas generada en DAX y marcada como tal |
