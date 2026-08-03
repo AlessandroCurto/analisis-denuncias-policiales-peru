@@ -43,13 +43,10 @@ cuatro problemas encontrados.
 El ubigeo peruano tiene seis dígitos. En el archivo original, 140,077 de
 361,792 filas tenían solo cinco: los departamentos del 01 al 09 perdieron
 su cero inicial porque la columna fue guardada tratándola como número.
-
 Lo detecté activando el perfil de columna en Power Query sobre el conjunto
 completo de datos, que mostró dos longitudes distintas conviviendo en la
 misma columna.
-
 Lo corregí con `Text.PadStart(Text.From([UBIGEO_HECHO]), 6, "0")`.
-
 Sin esta corrección, el cruce posterior con población habría fallado en el
 39% de los registros.
 
@@ -61,12 +58,10 @@ El archivo de población del INEI incluye en una misma columna los totales
 nacionales, departamentales, provinciales y distritales, sin ninguna
 columna que los distinga. Sumar la población tal cual habría contado a
 cada habitante cuatro veces.
-
 Los niveles superiores se identifican porque su ubigeo termina en `00`:
 `000000` es Perú, `010000` es Amazonas, `010100` es la provincia de
 Chachapoyas. Filtré con `Text.End([UBIGEO], 2) <> "00"` para conservar
 solo distritos.
-
 El archivo además traía el título del cuadro en las primeras filas, los
 encabezados repartidos en dos niveles, y los nueve años como columnas
 separadas, que convertí en filas mediante anulación de dinamización.
@@ -78,10 +73,8 @@ separadas, que convertí en filas mediante anulación de dinamización.
 59 registros traían la llamada a nota al pie dentro del nombre del
 distrito (`AHUAYRO 15/`, `PUTIS 7/`) y sin valor numérico de población
 para 2018, 2019 y 2020, por tratarse de distritos de creación reciente.
-
 Los detecté porque la conversión de tipo de dato generó errores en esas
 filas. Separé el indicador del nombre y eliminé los registros sin dato.
-
 El efecto es que unos 18 distritos no tienen tasa calculable en esos tres
 años. Representan menos del 0.4% de los registros de población.
 
@@ -90,10 +83,8 @@ años. Representan menos del 0.4% de los registros de población.
 El dataset policial usa 26 departamentos en lugar de los 25 oficiales:
 separa "LIMA METROPOLITANA" de "REGION LIMA", y consigna a Callao como
 "PROV. CONST. DEL CALLAO". El INEI emplea la nomenclatura estándar.
-
 Sin normalizar, el cruce habría devuelto valores nulos justo en Lima,
 donde reside cerca de un tercio de la población del país.
-
 Construí una tabla de equivalencias que unifica ambas Limas bajo "LIMA" y
 normaliza Callao, manteniendo la distinción original en la tabla de
 geografía para no perder capacidad de análisis.
@@ -122,17 +113,14 @@ métrica; las descripciones se separaron en dimensiones.
 Conectar `Poblacion` al modelo fue el punto menos evidente. La tabla tiene
 dos claves simultáneas —ubigeo y año— y ninguna identifica una fila por sí
 sola: cada distrito aparece nueve veces, una por año.
-
 Relacionarla solo por ubigeo habría enfrentado las denuncias de un año
 contra la suma de los nueve años de población. Relacionarla por
 departamento habría perdido el detalle distrital y arrastrado el problema
 de nomenclatura de Lima.
-
 La solución fue crear una clave compuesta `UBIGEO-Año` en ambas tablas, de
 modo que cada combinación de distrito y año se vincula con su población
 correspondiente. La relación queda de uno a varios desde `Poblacion` hacia
 `Denuncias`.
-
 Un efecto secundario de esta estructura es que el filtro de departamento
 llega a `Denuncias` pero no se propaga a `Poblacion`, porque el filtro fluye
 de la dimensión al hecho y no al revés. Eso obligó a ajustar la medida de
